@@ -19,33 +19,29 @@ io.on('connection', function(socket){
     });
 
     socket.on('msgParaServidor', function(data){
-       socket.emit(
-           'msgParaCliente', 
-           {apelido: data.apelido, mensagem: data.mensagem}
-       );
+            socket.emit(
+                'msgParaCliente', 
+                {apelido: data.apelido, mensagem: data.mensagem}
+            );
 
-       //broadcast
-       socket.broadcast.emit(
-           'msgParaCliente', 
-           {apelido: data.apelido, mensagem: data.mensagem}
-       );
+            //broadcast
+            socket.broadcast.emit(
+                'msgParaCliente', 
+                {apelido: data.apelido, mensagem: data.mensagem}
+            );
       
+            if(parseInt(data.apelido_atualizado_nos_clientes) == 0){
+                        socket.emit(
+                            'participantesParaCliente', 
+                            {apelido: data.apelido}
+                        );
 
-      socket.emit(
-           'participantesParaCliente', 
-           {apelido: data.apelido}
-       );
-
-       //broadcast
-       socket.broadcast.emit(
-          'participantesParaCliente', 
-           {apelido: data.apelido}
-       );
-
-
-
-
-
+                        //broadcast
+                        socket.broadcast.emit(
+                            'participantesParaCliente', 
+                            {apelido: data.apelido}
+                        );
+            }
 
     });
 
